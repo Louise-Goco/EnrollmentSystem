@@ -44,25 +44,29 @@
             this.CurriculumYearTextBox = new System.Windows.Forms.TextBox();
             this.RequisiteInformationLabel = new System.Windows.Forms.Label();
             this.SubjectCodeLabel2 = new System.Windows.Forms.Label();
-            this.SubjectCodeTextBox2 = new System.Windows.Forms.TextBox();
+            this.RequisiteSubjectTextBox = new System.Windows.Forms.TextBox();
             this.PreRequisiteRadioButton = new System.Windows.Forms.RadioButton();
             this.CoRequisiteRadioButton = new System.Windows.Forms.RadioButton();
-            this.RequisiteDataGridView = new System.Windows.Forms.DataGridView();
+            this.SubjectDataGridView = new System.Windows.Forms.DataGridView();
             this.SaveButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
-            this.DescriptionLabel2 = new System.Windows.Forms.Label();
             this.SubjectInformationLabel = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.RequisiteDataGridView)).BeginInit();
+            this.DescriptionTextBox = new System.Windows.Forms.TextBox();
+            this.SubjectCodeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UnitsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CoPreColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            ((System.ComponentModel.ISupportInitialize)(this.SubjectDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // SubjectEntryLabel
             // 
             this.SubjectEntryLabel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.SubjectEntryLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 36F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SubjectEntryLabel.Location = new System.Drawing.Point(12, 9);
+            this.SubjectEntryLabel.Location = new System.Drawing.Point(317, 11);
             this.SubjectEntryLabel.Name = "SubjectEntryLabel";
-            this.SubjectEntryLabel.Size = new System.Drawing.Size(767, 77);
+            this.SubjectEntryLabel.Size = new System.Drawing.Size(707, 77);
             this.SubjectEntryLabel.TabIndex = 1;
             this.SubjectEntryLabel.Text = "Subject Entry";
             this.SubjectEntryLabel.TextAlign = System.Drawing.ContentAlignment.TopCenter;
@@ -92,12 +96,11 @@
             // SubjectCodeTextBox
             // 
             this.SubjectCodeTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SubjectCodeTextBox.Location = new System.Drawing.Point(227, 146);
+            this.SubjectCodeTextBox.Location = new System.Drawing.Point(241, 146);
             this.SubjectCodeTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SubjectCodeTextBox.Name = "SubjectCodeTextBox";
             this.SubjectCodeTextBox.Size = new System.Drawing.Size(132, 27);
             this.SubjectCodeTextBox.TabIndex = 4;
-            this.SubjectCodeTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SubjectCodeTextBox1_KeyPress);
             // 
             // CategoryLabel
             // 
@@ -157,7 +160,7 @@
             // UnitsTextBox
             // 
             this.UnitsTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.UnitsTextBox.Location = new System.Drawing.Point(227, 213);
+            this.UnitsTextBox.Location = new System.Drawing.Point(241, 213);
             this.UnitsTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.UnitsTextBox.Name = "UnitsTextBox";
             this.UnitsTextBox.Size = new System.Drawing.Size(65, 27);
@@ -167,39 +170,36 @@
             // 
             this.OfferingComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.OfferingComboBox.FormattingEnabled = true;
-            this.OfferingComboBox.Location = new System.Drawing.Point(227, 246);
+            this.OfferingComboBox.Location = new System.Drawing.Point(241, 246);
             this.OfferingComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.OfferingComboBox.Name = "OfferingComboBox";
-            this.OfferingComboBox.Size = new System.Drawing.Size(153, 28);
+            this.OfferingComboBox.Size = new System.Drawing.Size(230, 28);
             this.OfferingComboBox.TabIndex = 15;
-            this.OfferingComboBox.Text = "Select";
             // 
             // CategoryComboBox
             // 
             this.CategoryComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CategoryComboBox.FormattingEnabled = true;
-            this.CategoryComboBox.Location = new System.Drawing.Point(227, 281);
+            this.CategoryComboBox.Location = new System.Drawing.Point(241, 279);
             this.CategoryComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CategoryComboBox.Name = "CategoryComboBox";
-            this.CategoryComboBox.Size = new System.Drawing.Size(109, 28);
+            this.CategoryComboBox.Size = new System.Drawing.Size(132, 28);
             this.CategoryComboBox.TabIndex = 16;
-            this.CategoryComboBox.Text = "Select";
             // 
             // CourseCodeComboBox
             // 
             this.CourseCodeComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CourseCodeComboBox.FormattingEnabled = true;
-            this.CourseCodeComboBox.Location = new System.Drawing.Point(227, 314);
+            this.CourseCodeComboBox.Location = new System.Drawing.Point(241, 314);
             this.CourseCodeComboBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CourseCodeComboBox.Name = "CourseCodeComboBox";
             this.CourseCodeComboBox.Size = new System.Drawing.Size(153, 28);
             this.CourseCodeComboBox.TabIndex = 17;
-            this.CourseCodeComboBox.Text = "Select";
             // 
             // CurriculumYearTextBox
             // 
             this.CurriculumYearTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CurriculumYearTextBox.Location = new System.Drawing.Point(227, 354);
+            this.CurriculumYearTextBox.Location = new System.Drawing.Point(241, 350);
             this.CurriculumYearTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CurriculumYearTextBox.Name = "CurriculumYearTextBox";
             this.CurriculumYearTextBox.Size = new System.Drawing.Size(109, 27);
@@ -207,12 +207,12 @@
             // 
             // RequisiteInformationLabel
             // 
-            this.RequisiteInformationLabel.BackColor = System.Drawing.Color.BlanchedAlmond;
+            this.RequisiteInformationLabel.BackColor = System.Drawing.SystemColors.ActiveCaption;
             this.RequisiteInformationLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.RequisiteInformationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.RequisiteInformationLabel.Location = new System.Drawing.Point(43, 416);
+            this.RequisiteInformationLabel.Location = new System.Drawing.Point(693, 106);
             this.RequisiteInformationLabel.Name = "RequisiteInformationLabel";
-            this.RequisiteInformationLabel.Size = new System.Drawing.Size(605, 290);
+            this.RequisiteInformationLabel.Size = new System.Drawing.Size(648, 290);
             this.RequisiteInformationLabel.TabIndex = 19;
             this.RequisiteInformationLabel.Text = " Requisite Information";
             // 
@@ -221,26 +221,27 @@
             this.SubjectCodeLabel2.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
             this.SubjectCodeLabel2.AutoSize = true;
             this.SubjectCodeLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SubjectCodeLabel2.Location = new System.Drawing.Point(91, 464);
+            this.SubjectCodeLabel2.Location = new System.Drawing.Point(703, 150);
             this.SubjectCodeLabel2.Name = "SubjectCodeLabel2";
             this.SubjectCodeLabel2.Size = new System.Drawing.Size(109, 20);
             this.SubjectCodeLabel2.TabIndex = 20;
             this.SubjectCodeLabel2.Text = "Subject Code";
             // 
-            // SubjectCodeTextBox2
+            // RequisiteSubjectTextBox
             // 
-            this.SubjectCodeTextBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SubjectCodeTextBox2.Location = new System.Drawing.Point(205, 457);
-            this.SubjectCodeTextBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.SubjectCodeTextBox2.Name = "SubjectCodeTextBox2";
-            this.SubjectCodeTextBox2.Size = new System.Drawing.Size(193, 27);
-            this.SubjectCodeTextBox2.TabIndex = 21;
+            this.RequisiteSubjectTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RequisiteSubjectTextBox.Location = new System.Drawing.Point(831, 146);
+            this.RequisiteSubjectTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.RequisiteSubjectTextBox.Name = "RequisiteSubjectTextBox";
+            this.RequisiteSubjectTextBox.Size = new System.Drawing.Size(193, 27);
+            this.RequisiteSubjectTextBox.TabIndex = 21;
+            this.RequisiteSubjectTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RequisiteSubjectTextBox_KeyPress);
             // 
             // PreRequisiteRadioButton
             // 
             this.PreRequisiteRadioButton.AutoSize = true;
             this.PreRequisiteRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.PreRequisiteRadioButton.Location = new System.Drawing.Point(455, 457);
+            this.PreRequisiteRadioButton.Location = new System.Drawing.Point(1030, 146);
             this.PreRequisiteRadioButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.PreRequisiteRadioButton.Name = "PreRequisiteRadioButton";
             this.PreRequisiteRadioButton.Size = new System.Drawing.Size(126, 24);
@@ -253,7 +254,7 @@
             // 
             this.CoRequisiteRadioButton.AutoSize = true;
             this.CoRequisiteRadioButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CoRequisiteRadioButton.Location = new System.Drawing.Point(455, 487);
+            this.CoRequisiteRadioButton.Location = new System.Drawing.Point(1175, 146);
             this.CoRequisiteRadioButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CoRequisiteRadioButton.Name = "CoRequisiteRadioButton";
             this.CoRequisiteRadioButton.Size = new System.Drawing.Size(121, 24);
@@ -262,63 +263,61 @@
             this.CoRequisiteRadioButton.Text = "Co-requisite";
             this.CoRequisiteRadioButton.UseVisualStyleBackColor = true;
             // 
-            // RequisiteDataGridView
+            // SubjectDataGridView
             // 
-            this.RequisiteDataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
-            this.RequisiteDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.RequisiteDataGridView.Location = new System.Drawing.Point(53, 517);
-            this.RequisiteDataGridView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.RequisiteDataGridView.Name = "RequisiteDataGridView";
-            this.RequisiteDataGridView.RowHeadersWidth = 51;
-            this.RequisiteDataGridView.RowTemplate.Height = 24;
-            this.RequisiteDataGridView.Size = new System.Drawing.Size(579, 174);
-            this.RequisiteDataGridView.TabIndex = 24;
+            this.SubjectDataGridView.BackgroundColor = System.Drawing.SystemColors.ControlLightLight;
+            this.SubjectDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.SubjectDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.SubjectCodeColumn,
+            this.DescriptionColumn,
+            this.UnitsColumn,
+            this.CoPreColumn});
+            this.SubjectDataGridView.Location = new System.Drawing.Point(707, 213);
+            this.SubjectDataGridView.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.SubjectDataGridView.Name = "SubjectDataGridView";
+            this.SubjectDataGridView.RowHeadersWidth = 51;
+            this.SubjectDataGridView.RowTemplate.Height = 24;
+            this.SubjectDataGridView.Size = new System.Drawing.Size(620, 174);
+            this.SubjectDataGridView.TabIndex = 24;
             // 
             // SaveButton
             // 
             this.SaveButton.AutoSize = true;
             this.SaveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SaveButton.Location = new System.Drawing.Point(653, 368);
+            this.SaveButton.Location = new System.Drawing.Point(521, 416);
             this.SaveButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(125, 33);
             this.SaveButton.TabIndex = 25;
             this.SaveButton.Text = "Save";
             this.SaveButton.UseVisualStyleBackColor = true;
+            this.SaveButton.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // CancelButton
             // 
             this.CancelButton.AutoSize = true;
             this.CancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CancelButton.Location = new System.Drawing.Point(653, 416);
+            this.CancelButton.Location = new System.Drawing.Point(693, 416);
             this.CancelButton.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(125, 33);
             this.CancelButton.TabIndex = 26;
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
+            this.CancelButton.Click += new System.EventHandler(this.CancelButton_Click);
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(247, 195);
+            this.label1.Location = new System.Drawing.Point(247, 194);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(0, 16);
             this.label1.TabIndex = 27;
             // 
-            // DescriptionLabel2
-            // 
-            this.DescriptionLabel2.AutoSize = true;
-            this.DescriptionLabel2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.DescriptionLabel2.Location = new System.Drawing.Point(223, 183);
-            this.DescriptionLabel2.Name = "DescriptionLabel2";
-            this.DescriptionLabel2.Size = new System.Drawing.Size(48, 20);
-            this.DescriptionLabel2.TabIndex = 28;
-            this.DescriptionLabel2.Text = "None";
-            // 
             // SubjectInformationLabel
             // 
             this.SubjectInformationLabel.BackColor = System.Drawing.SystemColors.ActiveCaption;
+            this.SubjectInformationLabel.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.SubjectInformationLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.SubjectInformationLabel.Location = new System.Drawing.Point(43, 107);
             this.SubjectInformationLabel.Name = "SubjectInformationLabel";
@@ -326,19 +325,56 @@
             this.SubjectInformationLabel.TabIndex = 29;
             this.SubjectInformationLabel.Text = "Subject Information";
             // 
+            // DescriptionTextBox
+            // 
+            this.DescriptionTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.DescriptionTextBox.Location = new System.Drawing.Point(241, 180);
+            this.DescriptionTextBox.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.DescriptionTextBox.Name = "DescriptionTextBox";
+            this.DescriptionTextBox.Size = new System.Drawing.Size(373, 27);
+            this.DescriptionTextBox.TabIndex = 30;
+            // 
+            // SubjectCodeColumn
+            // 
+            this.SubjectCodeColumn.HeaderText = "Subject Code";
+            this.SubjectCodeColumn.MinimumWidth = 6;
+            this.SubjectCodeColumn.Name = "SubjectCodeColumn";
+            this.SubjectCodeColumn.Width = 125;
+            // 
+            // DescriptionColumn
+            // 
+            this.DescriptionColumn.HeaderText = "Description";
+            this.DescriptionColumn.MinimumWidth = 6;
+            this.DescriptionColumn.Name = "DescriptionColumn";
+            this.DescriptionColumn.Width = 125;
+            // 
+            // UnitsColumn
+            // 
+            this.UnitsColumn.HeaderText = "Units";
+            this.UnitsColumn.MinimumWidth = 6;
+            this.UnitsColumn.Name = "UnitsColumn";
+            this.UnitsColumn.Width = 125;
+            // 
+            // CoPreColumn
+            // 
+            this.CoPreColumn.HeaderText = "Requisite";
+            this.CoPreColumn.MinimumWidth = 6;
+            this.CoPreColumn.Name = "CoPreColumn";
+            this.CoPreColumn.Width = 125;
+            // 
             // SubjectEntry
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(792, 738);
-            this.Controls.Add(this.DescriptionLabel2);
+            this.ClientSize = new System.Drawing.Size(1356, 470);
+            this.Controls.Add(this.DescriptionTextBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.SaveButton);
-            this.Controls.Add(this.RequisiteDataGridView);
+            this.Controls.Add(this.SubjectDataGridView);
             this.Controls.Add(this.CoRequisiteRadioButton);
             this.Controls.Add(this.PreRequisiteRadioButton);
-            this.Controls.Add(this.SubjectCodeTextBox2);
+            this.Controls.Add(this.RequisiteSubjectTextBox);
             this.Controls.Add(this.SubjectCodeLabel2);
             this.Controls.Add(this.RequisiteInformationLabel);
             this.Controls.Add(this.CurriculumYearTextBox);
@@ -359,7 +395,7 @@
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "SubjectEntry";
             this.Text = "SubjectEntry";
-            ((System.ComponentModel.ISupportInitialize)(this.RequisiteDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SubjectDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -382,14 +418,18 @@
         private System.Windows.Forms.TextBox CurriculumYearTextBox;
         private System.Windows.Forms.Label RequisiteInformationLabel;
         private System.Windows.Forms.Label SubjectCodeLabel2;
-        private System.Windows.Forms.TextBox SubjectCodeTextBox2;
+        private System.Windows.Forms.TextBox RequisiteSubjectTextBox;
         private System.Windows.Forms.RadioButton PreRequisiteRadioButton;
         private System.Windows.Forms.RadioButton CoRequisiteRadioButton;
-        private System.Windows.Forms.DataGridView RequisiteDataGridView;
+        private System.Windows.Forms.DataGridView SubjectDataGridView;
         private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.Button CancelButton;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label DescriptionLabel2;
         private System.Windows.Forms.Label SubjectInformationLabel;
+        private System.Windows.Forms.TextBox DescriptionTextBox;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SubjectCodeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DescriptionColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UnitsColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CoPreColumn;
     }
 }
