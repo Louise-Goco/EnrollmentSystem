@@ -65,8 +65,9 @@
             // IdNumberLabel
             // 
             this.IdNumberLabel.AutoSize = true;
-            this.IdNumberLabel.BackColor = System.Drawing.Color.White;
+            this.IdNumberLabel.BackColor = System.Drawing.Color.OliveDrab;
             this.IdNumberLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.IdNumberLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.IdNumberLabel.Location = new System.Drawing.Point(28, 20);
             this.IdNumberLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.IdNumberLabel.Name = "IdNumberLabel";
@@ -78,8 +79,9 @@
             // FirstNameLabel
             // 
             this.FirstNameLabel.AutoSize = true;
-            this.FirstNameLabel.BackColor = System.Drawing.Color.White;
+            this.FirstNameLabel.BackColor = System.Drawing.Color.OliveDrab;
             this.FirstNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.FirstNameLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.FirstNameLabel.Location = new System.Drawing.Point(44, 136);
             this.FirstNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.FirstNameLabel.Name = "FirstNameLabel";
@@ -111,8 +113,9 @@
             // MiddleInitialLabel
             // 
             this.MiddleInitialLabel.AutoSize = true;
-            this.MiddleInitialLabel.BackColor = System.Drawing.Color.White;
+            this.MiddleInitialLabel.BackColor = System.Drawing.Color.OliveDrab;
             this.MiddleInitialLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.MiddleInitialLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.MiddleInitialLabel.Location = new System.Drawing.Point(30, 162);
             this.MiddleInitialLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.MiddleInitialLabel.Name = "MiddleInitialLabel";
@@ -124,8 +127,9 @@
             // LastNameLabel
             // 
             this.LastNameLabel.AutoSize = true;
-            this.LastNameLabel.BackColor = System.Drawing.Color.White;
+            this.LastNameLabel.BackColor = System.Drawing.Color.OliveDrab;
             this.LastNameLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LastNameLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.LastNameLabel.Location = new System.Drawing.Point(44, 189);
             this.LastNameLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.LastNameLabel.Name = "LastNameLabel";
@@ -137,7 +141,7 @@
             // RemarksLabel
             // 
             this.RemarksLabel.AutoSize = true;
-            this.RemarksLabel.BackColor = System.Drawing.Color.White;
+            this.RemarksLabel.BackColor = System.Drawing.Color.OliveDrab;
             this.RemarksLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.RemarksLabel.Location = new System.Drawing.Point(40, 182);
             this.RemarksLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
@@ -150,8 +154,9 @@
             // YearLabel
             // 
             this.YearLabel.AutoSize = true;
-            this.YearLabel.BackColor = System.Drawing.Color.White;
+            this.YearLabel.BackColor = System.Drawing.Color.OliveDrab;
             this.YearLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.YearLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.YearLabel.Location = new System.Drawing.Point(74, 243);
             this.YearLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.YearLabel.Name = "YearLabel";
@@ -163,8 +168,9 @@
             // CourseLabel
             // 
             this.CourseLabel.AutoSize = true;
-            this.CourseLabel.BackColor = System.Drawing.Color.White;
+            this.CourseLabel.BackColor = System.Drawing.Color.OliveDrab;
             this.CourseLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.CourseLabel.ForeColor = System.Drawing.SystemColors.Control;
             this.CourseLabel.Location = new System.Drawing.Point(59, 216);
             this.CourseLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.CourseLabel.Name = "CourseLabel";
@@ -253,10 +259,11 @@
             // 
             // InfoPanel
             // 
-            this.InfoPanel.BackColor = System.Drawing.Color.White;
+            this.InfoPanel.BackColor = System.Drawing.Color.OliveDrab;
             this.InfoPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.InfoPanel.Controls.Add(this.RemarksLabel);
             this.InfoPanel.Controls.Add(this.IdNumberLabel);
+            this.InfoPanel.ForeColor = System.Drawing.SystemColors.Control;
             this.InfoPanel.Location = new System.Drawing.Point(10, 88);
             this.InfoPanel.Margin = new System.Windows.Forms.Padding(2);
             this.InfoPanel.Name = "InfoPanel";
@@ -267,7 +274,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.AppWorkspace;
+            this.BackColor = System.Drawing.Color.YellowGreen;
             this.ClientSize = new System.Drawing.Size(362, 368);
             this.Controls.Add(this.CancelButton);
             this.Controls.Add(this.SaveButton);

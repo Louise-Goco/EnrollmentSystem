@@ -25,7 +25,16 @@ namespace EvaluationSystem
             CourseCodeComboBox.Items.Add("BSIS");
         }
 
-        
+        public void ClearFields()
+        {
+            SubjectCodeTextBox.Clear();
+            DescriptionTextBox.Clear();
+            UnitsTextBox.Clear();
+            OfferingComboBox.SelectedItem = null;
+            CategoryComboBox.SelectedItem = null;
+            CourseCodeComboBox.SelectedItem = null;
+            CurriculumYearTextBox.Clear();
+        }
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
@@ -73,14 +82,14 @@ namespace EvaluationSystem
                 return;
             }
 
-            else if (!int.TryParse(CurriculumYearTextBox.Text, out int year) || year < 2000 || year > 2100) // Only accepts the year 2000 - 2100
+            /*else if(PreRequisiteRadioButton.Checked || CoRequisiteRadioButton.Checked == false)
             {
-                MessageBox.Show("Please enter a valid curriculum year .", "Invalid Year", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Choose one of the Requisite box.", "Missing Requisite", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
-            }
+            }*/
 
 
-            try
+                try
                 {
                     if (findRow == null)
                     {
@@ -91,7 +100,7 @@ namespace EvaluationSystem
                         thisRow["SFSUBJUNITS"] = Convert.ToInt16(UnitsTextBox.Text);
                         thisRow["SFSUBJREGOFRNG"] = OfferingComboBox.Text.Substring(0, 1);
                         thisRow["SFSUBJCATEGORY"] = CategoryComboBox.Text.Substring(0, 3);
-                        thisRow["SFSUBJSTATUS"] = "Active";
+                        thisRow["SFSUBJSTATUS"] = "AC";
                         thisRow["SFSUBJCOURSECODE"] = CourseCodeComboBox.Text;
                         thisRow["SFSUBJCURRCODE"] = CurriculumYearTextBox.Text;
 
@@ -99,6 +108,7 @@ namespace EvaluationSystem
                         thisAdapter.Update(thisDataSet, "SUBJECTFILE");
 
                         MessageBox.Show("Entries Recorded", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        ClearFields();
                     }
                     else
                     {
@@ -152,9 +162,6 @@ namespace EvaluationSystem
                 if (flag == false)
                 {
                     MessageBox.Show("Subject Not Found", "No Subject", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                {
-                    
                 }
             }
 

@@ -130,7 +130,7 @@ namespace EvaluationSystem
                 thisRow["STFSTUDCOURSE"] = CourseTextBox.Text;
                 thisRow["STFSTUDYEAR"] = Convert.ToInt64(YearTextBox.Text);
                 thisRow["STFSTUDREMARKS"] = RemarksComboBox.SelectedItem.ToString();
-                thisRow["STFSTUDSTATUS"] = "Active";
+                thisRow["STFSTUDSTATUS"] = "AC";
 
                 thisDataSet.Tables["StudentFile"].Rows.Add(thisRow);
                 thisAdapter.Update(thisDataSet, "StudentFile");
