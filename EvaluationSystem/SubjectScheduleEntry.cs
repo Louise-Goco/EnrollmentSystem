@@ -20,6 +20,17 @@ namespace EvaluationSystem
         public SubjectScheduleEntry()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
+        }
+
+        public void ClearFields()
+        {
+            SubjectEDPCodeTextBox.Clear();
+            SubjectCodeTextBox.Clear();
+            DaysTextBox.Clear();
+            RoomTextBox.Clear();
+            SectionTextBox.Clear();
+            SchoolYearTextBox.Clear();
         }
 
         private void SubjectScheduleEntry_Load(object sender, EventArgs e)
@@ -47,7 +58,7 @@ namespace EvaluationSystem
             return false;
         }
 
-            static List<int> availableRooms = new List<int>()
+        static List<int> availableRooms = new List<int>()
            .Concat(new[] { 203 })                 // 203
            .Concat(Enumerable.Range(209, 11))     // 209–219
            .Concat(new[] { 221 })                 // 221
@@ -168,6 +179,7 @@ namespace EvaluationSystem
                 subjectAdapter.Update(subjectDataSet, "SubjectSchedFile");
 
                 MessageBox.Show("Entries Recored", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                ClearFields();
             }
             catch(Exception ex)
             {
@@ -178,7 +190,10 @@ namespace EvaluationSystem
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            MainMenu MM = new MainMenu();
+            MM.Show();
+
+            this.Hide();
         }
 
         private void SubjectCodeTextBox_KeyPress(object sender, KeyPressEventArgs e)

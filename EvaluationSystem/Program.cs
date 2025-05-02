@@ -16,8 +16,7 @@ namespace EvaluationSystem
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            //Application.Run(new StudentEntryForm());
-            Application.Run(new SubjectScheduleEntry());
+            Application.Run(new MainMenu());
         }
     }
 }

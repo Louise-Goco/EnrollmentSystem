@@ -17,6 +17,7 @@ namespace EvaluationSystem
         public SubjectEntry()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             OfferingComboBox.Items.Add("1 - First Semester");
             OfferingComboBox.Items.Add("2 - Second Semester");
             CategoryComboBox.Items.Add("Lecture");
@@ -36,9 +37,44 @@ namespace EvaluationSystem
             CurriculumYearTextBox.Clear();
         }
 
+        private bool SubjectRequisiteExists(string subjectCode, string prereqCode, DataTable prereqTable)
+        {
+            foreach (DataRow row in prereqTable.Rows)
+            {
+                if (row.RowState != DataRowState.Deleted &&
+                    row["SUBJCODE"].ToString() == subjectCode &&
+                    row["SUBJPRECODE"].ToString() == prereqCode)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        private bool IsDataGridViewEmpty(DataGridView dgv)
+        {
+            foreach (DataGridViewRow row in dgv.Rows)
+            {
+                if (!row.IsNewRow) // Exclude the last empty row used for new entries
+                {
+                    foreach (DataGridViewCell cell in row.Cells)
+                    {
+                        if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                        {
+                            return false; // Found data
+                        }
+                    }
+                }
+            }
+            return true; // No actual data found
+        }
+
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            MainMenu MM = new MainMenu();
+            MM.Show();
+
+            this.Hide();
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
@@ -81,13 +117,6 @@ namespace EvaluationSystem
                 MessageBox.Show("Units must be an integer.", "Invalid Input", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
-            /*else if(PreRequisiteRadioButton.Checked || CoRequisiteRadioButton.Checked == false)
-            {
-                MessageBox.Show("Choose one of the Requisite box.", "Missing Requisite", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }*/
-
 
                 try
                 {
@@ -165,6 +194,86 @@ namespace EvaluationSystem
                 }
             }
 
+        }
+
+        private void SaveCoPreButton_Click(object sender, EventArgs e)
+        {
+            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\63915\Documents\Goco.mdf;Integrated Security=True;Connect Timeout=30";
+
+            SqlConnection myConnection = new SqlConnection(connectionString);
+            string sql = "SELECT * FROM SUBJECTPREQFILE";
+            SqlDataAdapter thisAdapter = new SqlDataAdapter(sql, myConnection);
+            SqlCommandBuilder thisBuilder = new SqlCommandBuilder(thisAdapter);
+
+            DataSet thisDataSet = new DataSet();
+            thisAdapter.Fill(thisDataSet, "SubjectPreqFile");
+
+            DataColumn[] keys = new DataColumn[2];
+
+            keys[0] = thisDataSet.Tables["SUBJECTPREQFILE"].Columns["SUBJCODE"];
+            keys[1] = thisDataSet.Tables["SUBJECTPREQFILE"].Columns["SUBJPRECODE"];
+            thisDataSet.Tables["SUBJECTPREQFILE"].PrimaryKey = keys;
+
+            String[] valuesToSearch = new string[2];
+            valuesToSearch[0] = SubjectCodeTextBox.Text;
+            valuesToSearch[1] = CourseCodeComboBox.Text;
+            DataRow findRow = thisDataSet.Tables["SUBJECTPREqFILE"].Rows.Find(valuesToSearch);
+
+            if (RequisiteSubjectTextBox.Text.Equals(""))
+            {
+                MessageBox.Show("Missing Subject Code", "Missing Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            else if (!PreRequisiteRadioButton.Checked && !CoRequisiteRadioButton.Checked)
+            {
+                MessageBox.Show("Please select a category (Pre-requisite or Co-requisite).", "Missing Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+            else if (IsDataGridViewEmpty(SubjectDataGridView))
+            {
+                MessageBox.Show("The grid is empty or contains only blank rows.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            else if (SubjectRequisiteExists(RequisiteSubjectTextBox.Text, CourseCodeComboBox.Text, thisDataSet.Tables["SUBJECTPREQFILE"]))
+            {
+                MessageBox.Show("This prerequisite entry already exists.", "Duplicate Entry", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+
+            try
+            {
+                if (findRow == null)
+                {
+                    DataRow thisRow = thisDataSet.Tables["SUBJECTPREQFILE"].NewRow();
+                    thisRow["SUBJCODE"] = RequisiteSubjectTextBox.Text;
+                    thisRow["SUBJPRECODE"] = CourseCodeComboBox.Text;
+
+                    if (PreRequisiteRadioButton.Checked)
+                        thisRow["SUBJCATEGORY"] = "PR";
+                    else if (CoRequisiteRadioButton.Checked)
+                        thisRow["SUBJCATEGORY"] = "CR";
+
+                    thisDataSet.Tables["SUBJECTPREQFILE"].Rows.Add(thisRow);
+                    thisAdapter.Update(thisDataSet, "SUBJECTPREQFILE");
+
+                    MessageBox.Show("Entries Recorded", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    // Reset UI
+                    RequisiteSubjectTextBox.Clear();
+                    SubjectDataGridView.Rows.Clear();
+                    PreRequisiteRadioButton.Checked = false;
+                    CoRequisiteRadioButton.Checked = false;
+                }
+                else
+                {
+                    MessageBox.Show("Duplicate subject + prerequisite combination.", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An error occurred while saving: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

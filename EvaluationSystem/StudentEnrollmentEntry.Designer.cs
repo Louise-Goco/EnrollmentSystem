@@ -39,7 +39,14 @@
             this.CourseLabel = new System.Windows.Forms.Label();
             this.YearLabel = new System.Windows.Forms.Label();
             this.EDPCodeLabel = new System.Windows.Forms.Label();
-            this.EnrollmentDataGridView = new System.Windows.Forms.DataGridView();
+            this.SubjectChoosedDataGridView = new System.Windows.Forms.DataGridView();
+            this.EDPCodeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.SubjectCodeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.StartTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.EndTimeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DaysColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.RoomColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UnitsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.EncodedByLabel = new System.Windows.Forms.Label();
             this.TotalUnitsLabel = new System.Windows.Forms.Label();
             this.DateLabel = new System.Windows.Forms.Label();
@@ -48,7 +55,7 @@
             this.DateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.SaveButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.EnrollmentDataGridView)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SubjectChoosedDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
             // StudentEnrollmentEntryLabel
@@ -124,6 +131,7 @@
             this.EDPCodeTextBox.Name = "EDPCodeTextBox";
             this.EDPCodeTextBox.Size = new System.Drawing.Size(87, 23);
             this.EDPCodeTextBox.TabIndex = 9;
+            this.EDPCodeTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.EDPCodeTextBox_KeyPress);
             // 
             // YearTextBox
             // 
@@ -170,16 +178,67 @@
             this.EDPCodeLabel.Text = "EDP Code";
             this.EDPCodeLabel.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             // 
-            // EnrollmentDataGridView
+            // SubjectChoosedDataGridView
             // 
-            this.EnrollmentDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.EnrollmentDataGridView.Location = new System.Drawing.Point(9, 213);
-            this.EnrollmentDataGridView.Margin = new System.Windows.Forms.Padding(2);
-            this.EnrollmentDataGridView.Name = "EnrollmentDataGridView";
-            this.EnrollmentDataGridView.RowHeadersWidth = 51;
-            this.EnrollmentDataGridView.RowTemplate.Height = 24;
-            this.EnrollmentDataGridView.Size = new System.Drawing.Size(794, 213);
-            this.EnrollmentDataGridView.TabIndex = 14;
+            this.SubjectChoosedDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.SubjectChoosedDataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.EDPCodeColumn,
+            this.SubjectCodeColumn,
+            this.StartTimeColumn,
+            this.EndTimeColumn,
+            this.DaysColumn,
+            this.RoomColumn,
+            this.UnitsColumn});
+            this.SubjectChoosedDataGridView.Location = new System.Drawing.Point(56, 210);
+            this.SubjectChoosedDataGridView.Margin = new System.Windows.Forms.Padding(2);
+            this.SubjectChoosedDataGridView.Name = "SubjectChoosedDataGridView";
+            this.SubjectChoosedDataGridView.RowHeadersVisible = false;
+            this.SubjectChoosedDataGridView.RowHeadersWidth = 51;
+            this.SubjectChoosedDataGridView.RowTemplate.Height = 24;
+            this.SubjectChoosedDataGridView.Size = new System.Drawing.Size(703, 213);
+            this.SubjectChoosedDataGridView.TabIndex = 14;
+            // 
+            // EDPCodeColumn
+            // 
+            this.EDPCodeColumn.HeaderText = "EDP Code";
+            this.EDPCodeColumn.Name = "EDPCodeColumn";
+            this.EDPCodeColumn.ReadOnly = true;
+            // 
+            // SubjectCodeColumn
+            // 
+            this.SubjectCodeColumn.HeaderText = "Subject Code";
+            this.SubjectCodeColumn.Name = "SubjectCodeColumn";
+            this.SubjectCodeColumn.ReadOnly = true;
+            // 
+            // StartTimeColumn
+            // 
+            this.StartTimeColumn.HeaderText = "Start Time";
+            this.StartTimeColumn.Name = "StartTimeColumn";
+            this.StartTimeColumn.ReadOnly = true;
+            // 
+            // EndTimeColumn
+            // 
+            this.EndTimeColumn.HeaderText = "End Time";
+            this.EndTimeColumn.Name = "EndTimeColumn";
+            this.EndTimeColumn.ReadOnly = true;
+            // 
+            // DaysColumn
+            // 
+            this.DaysColumn.HeaderText = "Days";
+            this.DaysColumn.Name = "DaysColumn";
+            this.DaysColumn.ReadOnly = true;
+            // 
+            // RoomColumn
+            // 
+            this.RoomColumn.HeaderText = "Room";
+            this.RoomColumn.Name = "RoomColumn";
+            this.RoomColumn.ReadOnly = true;
+            // 
+            // UnitsColumn
+            // 
+            this.UnitsColumn.HeaderText = "Units";
+            this.UnitsColumn.Name = "UnitsColumn";
+            this.UnitsColumn.ReadOnly = true;
             // 
             // EncodedByLabel
             // 
@@ -287,7 +346,7 @@
             this.Controls.Add(this.DateLabel);
             this.Controls.Add(this.TotalUnitsLabel);
             this.Controls.Add(this.EncodedByLabel);
-            this.Controls.Add(this.EnrollmentDataGridView);
+            this.Controls.Add(this.SubjectChoosedDataGridView);
             this.Controls.Add(this.EDPCodeLabel);
             this.Controls.Add(this.YearLabel);
             this.Controls.Add(this.CourseLabel);
@@ -299,10 +358,11 @@
             this.Controls.Add(this.NameLabel);
             this.Controls.Add(this.IdNumberLabel);
             this.Controls.Add(this.StudentEnrollmentEntryLabel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "StudentEnrollmentEntry";
             this.Text = "StudentEnrollmentEntry";
-            ((System.ComponentModel.ISupportInitialize)(this.EnrollmentDataGridView)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.SubjectChoosedDataGridView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -321,7 +381,7 @@
         private System.Windows.Forms.Label CourseLabel;
         private System.Windows.Forms.Label YearLabel;
         private System.Windows.Forms.Label EDPCodeLabel;
-        private System.Windows.Forms.DataGridView EnrollmentDataGridView;
+        private System.Windows.Forms.DataGridView SubjectChoosedDataGridView;
         private System.Windows.Forms.Label EncodedByLabel;
         private System.Windows.Forms.Label TotalUnitsLabel;
         private System.Windows.Forms.Label DateLabel;
@@ -330,5 +390,12 @@
         private System.Windows.Forms.DateTimePicker DateTimePicker;
         private System.Windows.Forms.Button SaveButton;
         private System.Windows.Forms.Button CancelButton;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EDPCodeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn SubjectCodeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn StartTimeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn EndTimeColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn DaysColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn RoomColumn;
+        private System.Windows.Forms.DataGridViewTextBoxColumn UnitsColumn;
     }
 }

@@ -247,7 +247,7 @@
             this.SaveButton.Location = new System.Drawing.Point(208, 328);
             this.SaveButton.Margin = new System.Windows.Forms.Padding(2);
             this.SaveButton.Name = "SaveButton";
-            this.SaveButton.Size = new System.Drawing.Size(78, 27);
+            this.SaveButton.Size = new System.Drawing.Size(78, 30);
             this.SaveButton.TabIndex = 25;
             this.SaveButton.Text = "Save";
             this.SaveButton.UseVisualStyleBackColor = true;
@@ -260,7 +260,7 @@
             this.CancelButton.Location = new System.Drawing.Point(290, 328);
             this.CancelButton.Margin = new System.Windows.Forms.Padding(2);
             this.CancelButton.Name = "CancelButton";
-            this.CancelButton.Size = new System.Drawing.Size(78, 27);
+            this.CancelButton.Size = new System.Drawing.Size(78, 30);
             this.CancelButton.TabIndex = 26;
             this.CancelButton.Text = "Cancel";
             this.CancelButton.UseVisualStyleBackColor = true;
@@ -283,9 +283,10 @@
             // 
             // RoomButton
             // 
-            this.RoomButton.Location = new System.Drawing.Point(327, 274);
+            this.RoomButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.RoomButton.Location = new System.Drawing.Point(408, 274);
             this.RoomButton.Name = "RoomButton";
-            this.RoomButton.Size = new System.Drawing.Size(75, 23);
+            this.RoomButton.Size = new System.Drawing.Size(110, 30);
             this.RoomButton.TabIndex = 30;
             this.RoomButton.Text = "Room List";
             this.RoomButton.UseVisualStyleBackColor = true;
@@ -293,9 +294,10 @@
             // 
             // SectionList
             // 
-            this.SectionList.Location = new System.Drawing.Point(327, 247);
+            this.SectionList.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SectionList.Location = new System.Drawing.Point(408, 243);
             this.SectionList.Name = "SectionList";
-            this.SectionList.Size = new System.Drawing.Size(75, 23);
+            this.SectionList.Size = new System.Drawing.Size(109, 30);
             this.SectionList.TabIndex = 31;
             this.SectionList.Text = "Section List";
             this.SectionList.UseVisualStyleBackColor = true;
@@ -330,6 +332,7 @@
             this.Controls.Add(this.SubjectCodeLabel);
             this.Controls.Add(this.SubjectEDPCodeLabel);
             this.Controls.Add(this.SubjectScheduleEntryLabel);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "SubjectScheduleEntry";
             this.Text = "SubjectScheduleEntry";

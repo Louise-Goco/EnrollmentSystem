@@ -17,6 +17,7 @@ namespace EvaluationSystem
         public StudentEntryForm()
         {
             InitializeComponent();
+            this.StartPosition = FormStartPosition.CenterScreen;
             RemarksComboBox.Items.Add("Shiftee");
             RemarksComboBox.Items.Add("Transferee");
             RemarksComboBox.Items.Add("New");
@@ -50,7 +51,10 @@ namespace EvaluationSystem
 
         private void CancelButton_Click(object sender, EventArgs e)
         {
-            Application.Exit();
+            MainMenu MM = new MainMenu();
+            MM.Show();
+
+            this.Hide();
         }
 
         private void SaveButton_Click(object sender, EventArgs e)
