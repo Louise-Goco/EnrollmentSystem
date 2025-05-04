@@ -48,16 +48,15 @@
             this.PreRequisiteRadioButton = new System.Windows.Forms.RadioButton();
             this.CoRequisiteRadioButton = new System.Windows.Forms.RadioButton();
             this.SubjectDataGridView = new System.Windows.Forms.DataGridView();
+            this.SubjectCodeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.UnitsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CoPreColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.SaveButton = new System.Windows.Forms.Button();
             this.CancelButton = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.SubjectInformationLabel = new System.Windows.Forms.Label();
             this.DescriptionTextBox = new System.Windows.Forms.TextBox();
-            this.SubjectCodeColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.DescriptionColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.UnitsColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.CoPreColumn = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.SaveCoPreButton = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.SubjectDataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -314,11 +313,39 @@
             this.SubjectDataGridView.Size = new System.Drawing.Size(465, 126);
             this.SubjectDataGridView.TabIndex = 24;
             // 
+            // SubjectCodeColumn
+            // 
+            this.SubjectCodeColumn.HeaderText = "Subject Code";
+            this.SubjectCodeColumn.MinimumWidth = 6;
+            this.SubjectCodeColumn.Name = "SubjectCodeColumn";
+            this.SubjectCodeColumn.Width = 125;
+            // 
+            // DescriptionColumn
+            // 
+            this.DescriptionColumn.HeaderText = "Description";
+            this.DescriptionColumn.MinimumWidth = 6;
+            this.DescriptionColumn.Name = "DescriptionColumn";
+            this.DescriptionColumn.Width = 125;
+            // 
+            // UnitsColumn
+            // 
+            this.UnitsColumn.HeaderText = "Units";
+            this.UnitsColumn.MinimumWidth = 6;
+            this.UnitsColumn.Name = "UnitsColumn";
+            this.UnitsColumn.Width = 125;
+            // 
+            // CoPreColumn
+            // 
+            this.CoPreColumn.HeaderText = "CoPre";
+            this.CoPreColumn.MinimumWidth = 6;
+            this.CoPreColumn.Name = "CoPreColumn";
+            this.CoPreColumn.Width = 125;
+            // 
             // SaveButton
             // 
             this.SaveButton.AutoSize = true;
             this.SaveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SaveButton.Location = new System.Drawing.Point(181, 338);
+            this.SaveButton.Location = new System.Drawing.Point(391, 338);
             this.SaveButton.Margin = new System.Windows.Forms.Padding(2);
             this.SaveButton.Name = "SaveButton";
             this.SaveButton.Size = new System.Drawing.Size(94, 27);
@@ -331,7 +358,7 @@
             // 
             this.CancelButton.AutoSize = true;
             this.CancelButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.CancelButton.Location = new System.Drawing.Point(461, 338);
+            this.CancelButton.Location = new System.Drawing.Point(520, 338);
             this.CancelButton.Margin = new System.Windows.Forms.Padding(2);
             this.CancelButton.Name = "CancelButton";
             this.CancelButton.Size = new System.Drawing.Size(94, 27);
@@ -371,54 +398,12 @@
             this.DescriptionTextBox.Size = new System.Drawing.Size(281, 23);
             this.DescriptionTextBox.TabIndex = 30;
             // 
-            // SubjectCodeColumn
-            // 
-            this.SubjectCodeColumn.HeaderText = "Subject Code";
-            this.SubjectCodeColumn.MinimumWidth = 6;
-            this.SubjectCodeColumn.Name = "SubjectCodeColumn";
-            this.SubjectCodeColumn.Width = 125;
-            // 
-            // DescriptionColumn
-            // 
-            this.DescriptionColumn.HeaderText = "Description";
-            this.DescriptionColumn.MinimumWidth = 6;
-            this.DescriptionColumn.Name = "DescriptionColumn";
-            this.DescriptionColumn.Width = 125;
-            // 
-            // UnitsColumn
-            // 
-            this.UnitsColumn.HeaderText = "Units";
-            this.UnitsColumn.MinimumWidth = 6;
-            this.UnitsColumn.Name = "UnitsColumn";
-            this.UnitsColumn.Width = 125;
-            // 
-            // CoPreColumn
-            // 
-            this.CoPreColumn.HeaderText = "CoPre";
-            this.CoPreColumn.MinimumWidth = 6;
-            this.CoPreColumn.Name = "CoPreColumn";
-            this.CoPreColumn.Width = 125;
-            // 
-            // SaveCoPreButton
-            // 
-            this.SaveCoPreButton.AutoSize = true;
-            this.SaveCoPreButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.SaveCoPreButton.Location = new System.Drawing.Point(711, 338);
-            this.SaveCoPreButton.Margin = new System.Windows.Forms.Padding(2);
-            this.SaveCoPreButton.Name = "SaveCoPreButton";
-            this.SaveCoPreButton.Size = new System.Drawing.Size(94, 27);
-            this.SaveCoPreButton.TabIndex = 31;
-            this.SaveCoPreButton.Text = "Save";
-            this.SaveCoPreButton.UseVisualStyleBackColor = true;
-            this.SaveCoPreButton.Click += new System.EventHandler(this.SaveCoPreButton_Click);
-            // 
             // SubjectEntry
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.YellowGreen;
             this.ClientSize = new System.Drawing.Size(1017, 382);
-            this.Controls.Add(this.SaveCoPreButton);
             this.Controls.Add(this.DescriptionTextBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.CancelButton);
@@ -484,6 +469,5 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn DescriptionColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn UnitsColumn;
         private System.Windows.Forms.DataGridViewTextBoxColumn CoPreColumn;
-        private System.Windows.Forms.Button SaveCoPreButton;
     }
 }

@@ -282,6 +282,7 @@
             this.TotalUnitsTextBox.Location = new System.Drawing.Point(680, 437);
             this.TotalUnitsTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.TotalUnitsTextBox.Name = "TotalUnitsTextBox";
+            this.TotalUnitsTextBox.ReadOnly = true;
             this.TotalUnitsTextBox.Size = new System.Drawing.Size(124, 23);
             this.TotalUnitsTextBox.TabIndex = 18;
             this.TotalUnitsTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;

@@ -21,12 +21,16 @@ namespace EvaluationSystem
         {
             InitializeComponent();
             this.StartPosition = FormStartPosition.CenterScreen;
+            AMPMComboBox.Items.Add("AM");
+            AMPMComboBox.Items.Add("PM");
         }
 
         public void ClearFields()
         {
             SubjectEDPCodeTextBox.Clear();
             SubjectCodeTextBox.Clear();
+            DescriptionTextBox.Clear();
+            AMPMComboBox.SelectedItem = null;
             DaysTextBox.Clear();
             RoomTextBox.Clear();
             SectionTextBox.Clear();
@@ -168,10 +172,10 @@ namespace EvaluationSystem
                 schedRow["SSFENDTIME"] = EndDateTimePicker.Value.ToString("HH:mm tt");
                 schedRow["SSFDAYS"] = DaysTextBox.Text;
                 schedRow["SSFROOM"] = Convert.ToInt64(RoomTextBox.Text);
-                schedRow["SSFMAXSIZE"] = 50;
+                schedRow["SSFMAXSIZE"] = 1;
                 schedRow["SSFCLASSSIZE"] = 0;
                 schedRow["SSFSTATUS"] = "AC";
-                schedRow["SSFXM"] = "";
+                schedRow["SSFXM"] = AMPMComboBox.SelectedItem.ToString();
                 schedRow["SSFSECTION"] = SectionTextBox.Text;
                 schedRow["SSFSCHOOLYEAR"] = Convert.ToInt64(SchoolYearTextBox.Text);
 

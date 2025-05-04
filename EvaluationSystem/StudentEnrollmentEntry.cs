@@ -21,6 +21,18 @@ namespace EvaluationSystem
             this.StartPosition = FormStartPosition.CenterScreen;
         }
 
+        public void ClearFields()
+        {
+            IdNumberTextBox.Clear();
+            NameTextBox.Clear();
+            CourseTextBox.Clear();
+            YearTextBox.Clear();
+            EDPCodeTextBox.Clear();
+            SubjectChoosedDataGridView.Rows.Clear();
+            TotalUnitsTextBox.Clear();
+            EncodedByTextBox.Clear();
+        }
+
         private void IdNumberTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if(e.KeyChar == (char)Keys.Enter)
@@ -64,7 +76,115 @@ namespace EvaluationSystem
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
+            string studentId = IdNumberTextBox.Text.Trim();
+            string encodedBy = EncodedByTextBox.Text.Trim();
+            string status = "EN";
+            int totalUnits = int.TryParse(TotalUnitsLabel.Text.Trim(), out int result) ? result : 0;
+            DateTime dateEnrolled = DateTimePicker.Value;
 
+            if (string.IsNullOrEmpty(studentId) || string.IsNullOrEmpty(encodedBy) || SubjectChoosedDataGridView.Rows.Count == 0)
+            {
+                MessageBox.Show("Please fill out all required fields and add at least one subject.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string firstEDPCode = null;
+            foreach (DataGridViewRow row in SubjectChoosedDataGridView.Rows)
+            {
+                if (!row.IsNewRow)
+                {
+                    firstEDPCode = row.Cells["EDPCodeColumn"].Value?.ToString();
+                    break;
+                }
+            }
+
+            if (string.IsNullOrEmpty(firstEDPCode))
+            {
+                MessageBox.Show("Cannot determine school year.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            string schoolYear = null;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                SqlTransaction transaction = conn.BeginTransaction();
+                bool success = false;
+                try
+                {
+                    using (SqlCommand getSY = new SqlCommand("SELECT SSFSCHOOLYEAR FROM SubjectSchedFile WHERE SSFEDPCODE = @edp", conn, transaction))
+                    {
+                        getSY.Parameters.AddWithValue("@edp", firstEDPCode);
+                        object resultSY = getSY.ExecuteScalar();
+                        if (resultSY != null && int.TryParse(resultSY.ToString(), out int sy))
+                        {
+                            schoolYear = sy.ToString();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Could not retrieve school year for EDP code.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            return;
+                        }
+                    }
+
+                    // Insert into EnrollmentHeaderFile
+                    string insertHeaderSql = @"INSERT INTO EnrollmentHeaderFile
+                        (ENRHFSTUDID, ENRHFSTUDDATEENROLL, ENRHFSTUDSCHLYR, ENRHFSTUDENCODER, ENRHFSTUDTOTALUNITS, ENRHFSTUDSTATUS)
+                        VALUES (@StudentId, @DateEnroll, @SchoolYear, @Encoder, @TotalUnits, @Status)";
+
+                    using (SqlCommand cmdHeader = new SqlCommand(insertHeaderSql, conn, transaction))
+                    {
+                        cmdHeader.Parameters.AddWithValue("@StudentId", studentId);
+                        cmdHeader.Parameters.AddWithValue("@DateEnroll", dateEnrolled);
+                        cmdHeader.Parameters.AddWithValue("@SchoolYear", schoolYear);
+                        cmdHeader.Parameters.AddWithValue("@Encoder", encodedBy);
+                        cmdHeader.Parameters.AddWithValue("@TotalUnits", totalUnits);
+                        cmdHeader.Parameters.AddWithValue("@Status", status);
+                        cmdHeader.ExecuteNonQuery();
+                    }
+
+                    // Insert into EnrollmentDetailFile
+                    foreach (DataGridViewRow row in SubjectChoosedDataGridView.Rows)
+                    {
+                        if (row.IsNewRow) continue;
+
+                        string edpCode = row.Cells["EDPCodeColumn"].Value?.ToString() ?? "";
+                        string subjectCode = row.Cells["SubjectCodeColumn"].Value?.ToString() ?? "";
+
+                        if (string.IsNullOrEmpty(edpCode) || string.IsNullOrEmpty(subjectCode)) continue;
+
+                        string insertDetailSql = @"INSERT INTO EnrollmentDetailFile
+                            (ENRDFSTUDID, ENRDFSTUDSUBJCDE, ENRDFSTUDEDPCODE, ENRDFSTUDSTATUS)
+                            VALUES (@StudentId, @SubjectCode, @EDPCode, @Status)";
+
+                        using (SqlCommand cmdDetail = new SqlCommand(insertDetailSql, conn, transaction))
+                        {
+                            cmdDetail.Parameters.AddWithValue("@StudentId", studentId);
+                            cmdDetail.Parameters.AddWithValue("@SubjectCode", subjectCode);
+                            cmdDetail.Parameters.AddWithValue("@EDPCode", edpCode);
+                            cmdDetail.Parameters.AddWithValue("@Status", status);
+                            cmdDetail.ExecuteNonQuery();
+                        }
+                    }
+                    success = true;
+                    transaction.Commit();
+                    MessageBox.Show("Enrollment saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ClearFields();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Error saving enrollment: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+                finally
+                {
+                    if (!success)
+                    {
+                        transaction.Rollback();
+                    }
+
+                }
+            }
         }
 
         private void EDPCodeTextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -178,7 +298,7 @@ namespace EvaluationSystem
                 }
 
                 double currentTotalUnits = 0.0;
-                double.TryParse(TotalUnitsLabel.Text, out currentTotalUnits);
+                double.TryParse(TotalUnitsTextBox.Text, out currentTotalUnits);
                 if ((currentTotalUnits + units) > 24.0)
                 {
                     MessageBox.Show($"Adding this subject ({units} units) would exceed the 24 unit limit.", "Unit Limit Exceeded", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -232,6 +352,13 @@ namespace EvaluationSystem
                     return;
                 }
 
+                if(string.IsNullOrWhiteSpace(IdNumberTextBox.Text))
+                {
+                    MessageBox.Show("Missing Fields", "Student details missing", MessageBoxButtons.OK, MessageBoxIcon.Warning); // Added Icon
+                    IdNumberTextBox.SelectAll();
+                    return;
+                }
+
                 int index = SubjectChoosedDataGridView.Rows.Add();
                 DataGridViewRow newRow = SubjectChoosedDataGridView.Rows[index];
 
@@ -242,6 +369,18 @@ namespace EvaluationSystem
                 newRow.Cells["DaysColumn"].Value = days;
                 newRow.Cells["RoomColumn"].Value = room;
                 newRow.Cells["UnitsColumn"].Value = units;
+
+                int totalUnits = 0;
+
+                foreach (DataGridViewRow row in SubjectChoosedDataGridView.Rows)
+                {
+                    if (row.Cells["UnitsColumn"].Value != null)
+                    {
+                        totalUnits += Convert.ToInt32(row.Cells["UnitsColumn"].Value);
+                    }
+                }
+
+                TotalUnitsTextBox.Text = totalUnits.ToString();
 
                 EDPCodeTextBox.Clear();
                 EDPCodeTextBox.Focus();

@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Runtime.ExceptionServices;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -21,7 +22,7 @@ namespace EvaluationSystem
             OfferingComboBox.Items.Add("1 - First Semester");
             OfferingComboBox.Items.Add("2 - Second Semester");
             CategoryComboBox.Items.Add("Lecture");
-            CategoryComboBox.Items.Add("Labratory");
+            CategoryComboBox.Items.Add("Laboratory");
             CourseCodeComboBox.Items.Add("BSIT");
             CourseCodeComboBox.Items.Add("BSIS");
         }
@@ -50,25 +51,6 @@ namespace EvaluationSystem
             }
             return false;
         }
-
-        private bool IsDataGridViewEmpty(DataGridView dgv)
-        {
-            foreach (DataGridViewRow row in dgv.Rows)
-            {
-                if (!row.IsNewRow) // Exclude the last empty row used for new entries
-                {
-                    foreach (DataGridViewCell cell in row.Cells)
-                    {
-                        if (cell.Value != null && !string.IsNullOrWhiteSpace(cell.Value.ToString()))
-                        {
-                            return false; // Found data
-                        }
-                    }
-                }
-            }
-            return true; // No actual data found
-        }
-
         private void CancelButton_Click(object sender, EventArgs e)
         {
             MainMenu MM = new MainMenu();
@@ -118,39 +100,116 @@ namespace EvaluationSystem
                 return;
             }
 
-                try
+            try
+            {
+                if (findRow == null)
                 {
-                    if (findRow == null)
+                    DataRow thisRow = thisDataSet.Tables["SUBJECTFILE"].NewRow();
+
+                    thisRow["SFSUBJCODE"] = SubjectCodeTextBox.Text;
+                    thisRow["SFSUBJDESC"] = DescriptionTextBox.Text;
+                    thisRow["SFSUBJUNITS"] = Convert.ToInt16(UnitsTextBox.Text);
+                    thisRow["SFSUBJREGOFRNG"] = OfferingComboBox.Text.Substring(0, 1);
+                    thisRow["SFSUBJCATEGORY"] = CategoryComboBox.Text.Substring(0, 3);
+                    thisRow["SFSUBJSTATUS"] = "AC";
+                    thisRow["SFSUBJCOURSECODE"] = CourseCodeComboBox.Text;
+                    thisRow["SFSUBJCURRCODE"] = CurriculumYearTextBox.Text;
+
+
+                    if (!string.IsNullOrWhiteSpace(RequisiteSubjectTextBox.Text))
                     {
-                        DataRow thisRow = thisDataSet.Tables["SUBJECTFILE"].NewRow();
+                        SqlConnection ReqConnection = new SqlConnection(connectionString);
+                        string sqlRequisite = "SELECT * FROM SUBJECTPREQFILE";
+                        SqlDataAdapter RequisiteAdapter = new SqlDataAdapter(sqlRequisite, ReqConnection);
+                        SqlCommandBuilder RequisiteBuilder = new SqlCommandBuilder(RequisiteAdapter);
 
-                        thisRow["SFSUBJCODE"] = SubjectCodeTextBox.Text;
-                        thisRow["SFSUBJDESC"] = DescriptionTextBox.Text;
-                        thisRow["SFSUBJUNITS"] = Convert.ToInt16(UnitsTextBox.Text);
-                        thisRow["SFSUBJREGOFRNG"] = OfferingComboBox.Text.Substring(0, 1);
-                        thisRow["SFSUBJCATEGORY"] = CategoryComboBox.Text.Substring(0, 3);
-                        thisRow["SFSUBJSTATUS"] = "AC";
-                        thisRow["SFSUBJCOURSECODE"] = CourseCodeComboBox.Text;
-                        thisRow["SFSUBJCURRCODE"] = CurriculumYearTextBox.Text;
+                        DataSet RequisiteDataSet = new DataSet();
+                        RequisiteAdapter.Fill(RequisiteDataSet, "SubjectPreqFile");
 
-                        thisDataSet.Tables["SUBJECTFILE"].Rows.Add(thisRow);
-                        thisAdapter.Update(thisDataSet, "SUBJECTFILE");
+                        DataColumn[] Reqkeys = new DataColumn[2];
 
-                        MessageBox.Show("Entries Recorded", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        ClearFields();
+                        Reqkeys[0] = RequisiteDataSet.Tables["SUBJECTPREQFILE"].Columns["SUBJCODE"];
+                        Reqkeys[1] = RequisiteDataSet.Tables["SUBJECTPREQFILE"].Columns["SUBJPRECODE"];
+                        RequisiteDataSet.Tables["SUBJECTPREQFILE"].PrimaryKey = Reqkeys;
+
+                        String[] valuesToSearch2 = new string[2];
+                        valuesToSearch2[0] = SubjectCodeTextBox.Text;
+                        valuesToSearch2[1] = RequisiteSubjectTextBox.Text;
+                        DataRow findRow2 = RequisiteDataSet.Tables["SUBJECTPREQFILE"].Rows.Find(valuesToSearch2);
+
+                        if (RequisiteSubjectTextBox.Text.Equals(""))
+                        {
+                            MessageBox.Show("Missing Subject Code", "Missing Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        else if (!PreRequisiteRadioButton.Checked && !CoRequisiteRadioButton.Checked)
+                        {
+                            MessageBox.Show("Please select a category (Pre-requisite or Co-requisite).", "Missing Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+                        else if (SubjectDataGridView.Rows[0].Cells["SubjectCodeColumn"].Value == null)
+                        {
+                            MessageBox.Show("Subject list is empty. Please add subjects before proceeding.", "Empty Grid", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+                        else if (SubjectRequisiteExists(RequisiteSubjectTextBox.Text, CourseCodeComboBox.Text, RequisiteDataSet.Tables["SUBJECTPREQFILE"]))
+                        {
+                            MessageBox.Show("This prerequisite entry already exists.", "Duplicate Entry", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            return;
+                        }
+
+
+                        try
+                        {
+                            if (findRow2 == null)
+                            {
+                                DataRow ReqRow = RequisiteDataSet.Tables["SUBJECTPREQFILE"].NewRow();
+                                ReqRow["SUBJCODE"] = SubjectCodeTextBox.Text;
+                                ReqRow["SUBJPRECODE"] = RequisiteSubjectTextBox.Text;
+
+                                if (PreRequisiteRadioButton.Checked)
+                                    ReqRow["SUBJCATEGORY"] = "PR";
+                                else if (CoRequisiteRadioButton.Checked)
+                                    ReqRow["SUBJCATEGORY"] = "CR";
+
+                                RequisiteDataSet.Tables["SUBJECTPREQFILE"].Rows.Add(ReqRow);
+                                RequisiteAdapter.Update(RequisiteDataSet, "SUBJECTPREQFILE");
+
+                                MessageBox.Show("Entries Recorded", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                                // Reset UI
+                                RequisiteSubjectTextBox.Clear();
+                                SubjectDataGridView.Rows.Clear();
+                                PreRequisiteRadioButton.Checked = false;
+                                CoRequisiteRadioButton.Checked = false;
+                            }
+                            else
+                            {
+                                MessageBox.Show("Duplicate subject + prerequisite combination.", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("An error occurred while saving: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        }
                     }
-                    else
-                    {
-                        MessageBox.Show("Duplicate Entry", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    }
+                    thisDataSet.Tables["SUBJECTFILE"].Rows.Add(thisRow);
+                    thisAdapter.Update(thisDataSet, "SUBJECTFILE");
+
+                    MessageBox.Show("Entries Recorded", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ClearFields();
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show("An unexpected error occurred: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Duplicate Entry", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("An unexpected error occurred: " + ex.Message, "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
-
         private void RequisiteSubjectTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
             if (e.KeyChar == (char)Keys.Enter)
@@ -194,86 +253,6 @@ namespace EvaluationSystem
                 }
             }
 
-        }
-
-        private void SaveCoPreButton_Click(object sender, EventArgs e)
-        {
-            string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\63915\Documents\Goco.mdf;Integrated Security=True;Connect Timeout=30";
-
-            SqlConnection myConnection = new SqlConnection(connectionString);
-            string sql = "SELECT * FROM SUBJECTPREQFILE";
-            SqlDataAdapter thisAdapter = new SqlDataAdapter(sql, myConnection);
-            SqlCommandBuilder thisBuilder = new SqlCommandBuilder(thisAdapter);
-
-            DataSet thisDataSet = new DataSet();
-            thisAdapter.Fill(thisDataSet, "SubjectPreqFile");
-
-            DataColumn[] keys = new DataColumn[2];
-
-            keys[0] = thisDataSet.Tables["SUBJECTPREQFILE"].Columns["SUBJCODE"];
-            keys[1] = thisDataSet.Tables["SUBJECTPREQFILE"].Columns["SUBJPRECODE"];
-            thisDataSet.Tables["SUBJECTPREQFILE"].PrimaryKey = keys;
-
-            String[] valuesToSearch = new string[2];
-            valuesToSearch[0] = SubjectCodeTextBox.Text;
-            valuesToSearch[1] = CourseCodeComboBox.Text;
-            DataRow findRow = thisDataSet.Tables["SUBJECTPREqFILE"].Rows.Find(valuesToSearch);
-
-            if (RequisiteSubjectTextBox.Text.Equals(""))
-            {
-                MessageBox.Show("Missing Subject Code", "Missing Field", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            else if (!PreRequisiteRadioButton.Checked && !CoRequisiteRadioButton.Checked)
-            {
-                MessageBox.Show("Please select a category (Pre-requisite or Co-requisite).", "Missing Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            else if (IsDataGridViewEmpty(SubjectDataGridView))
-            {
-                MessageBox.Show("The grid is empty or contains only blank rows.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-            else if (SubjectRequisiteExists(RequisiteSubjectTextBox.Text, CourseCodeComboBox.Text, thisDataSet.Tables["SUBJECTPREQFILE"]))
-            {
-                MessageBox.Show("This prerequisite entry already exists.", "Duplicate Entry", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-
-
-            try
-            {
-                if (findRow == null)
-                {
-                    DataRow thisRow = thisDataSet.Tables["SUBJECTPREQFILE"].NewRow();
-                    thisRow["SUBJCODE"] = RequisiteSubjectTextBox.Text;
-                    thisRow["SUBJPRECODE"] = CourseCodeComboBox.Text;
-
-                    if (PreRequisiteRadioButton.Checked)
-                        thisRow["SUBJCATEGORY"] = "PR";
-                    else if (CoRequisiteRadioButton.Checked)
-                        thisRow["SUBJCATEGORY"] = "CR";
-
-                    thisDataSet.Tables["SUBJECTPREQFILE"].Rows.Add(thisRow);
-                    thisAdapter.Update(thisDataSet, "SUBJECTPREQFILE");
-
-                    MessageBox.Show("Entries Recorded", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // Reset UI
-                    RequisiteSubjectTextBox.Clear();
-                    SubjectDataGridView.Rows.Clear();
-                    PreRequisiteRadioButton.Checked = false;
-                    CoRequisiteRadioButton.Checked = false;
-                }
-                else
-                {
-                    MessageBox.Show("Duplicate subject + prerequisite combination.", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("An error occurred while saving: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
     }
 }

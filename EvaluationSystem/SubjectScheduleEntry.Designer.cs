@@ -51,6 +51,8 @@
             this.EndDateTimePicker = new System.Windows.Forms.DateTimePicker();
             this.RoomButton = new System.Windows.Forms.Button();
             this.SectionList = new System.Windows.Forms.Button();
+            this.AMPMLabel = new System.Windows.Forms.Label();
+            this.AMPMComboBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // SubjectScheduleEntryLabel
@@ -303,12 +305,34 @@
             this.SectionList.UseVisualStyleBackColor = true;
             this.SectionList.Click += new System.EventHandler(this.SectionList_Click);
             // 
+            // AMPMLabel
+            // 
+            this.AMPMLabel.AccessibleRole = System.Windows.Forms.AccessibleRole.None;
+            this.AMPMLabel.AutoSize = true;
+            this.AMPMLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AMPMLabel.Location = new System.Drawing.Point(330, 172);
+            this.AMPMLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
+            this.AMPMLabel.Name = "AMPMLabel";
+            this.AMPMLabel.Size = new System.Drawing.Size(57, 17);
+            this.AMPMLabel.TabIndex = 32;
+            this.AMPMLabel.Text = "AM/PM";
+            // 
+            // AMPMComboBox
+            // 
+            this.AMPMComboBox.FormattingEnabled = true;
+            this.AMPMComboBox.Location = new System.Drawing.Point(392, 168);
+            this.AMPMComboBox.Name = "AMPMComboBox";
+            this.AMPMComboBox.Size = new System.Drawing.Size(108, 21);
+            this.AMPMComboBox.TabIndex = 33;
+            // 
             // SubjectScheduleEntry
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.YellowGreen;
             this.ClientSize = new System.Drawing.Size(601, 363);
+            this.Controls.Add(this.AMPMComboBox);
+            this.Controls.Add(this.AMPMLabel);
             this.Controls.Add(this.SectionList);
             this.Controls.Add(this.RoomButton);
             this.Controls.Add(this.EndDateTimePicker);
@@ -367,5 +391,7 @@
         private System.Windows.Forms.DateTimePicker EndDateTimePicker;
         private System.Windows.Forms.Button RoomButton;
         private System.Windows.Forms.Button SectionList;
+        private System.Windows.Forms.Label AMPMLabel;
+        private System.Windows.Forms.ComboBox AMPMComboBox;
     }
 }
