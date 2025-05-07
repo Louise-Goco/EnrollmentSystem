@@ -77,7 +77,7 @@
             this.SubjectEDPCodeLabel.Location = new System.Drawing.Point(64, 92);
             this.SubjectEDPCodeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.SubjectEDPCodeLabel.Name = "SubjectEDPCodeLabel";
-            this.SubjectEDPCodeLabel.Size = new System.Drawing.Size(140, 17);
+            this.SubjectEDPCodeLabel.Size = new System.Drawing.Size(165, 20);
             this.SubjectEDPCodeLabel.TabIndex = 3;
             this.SubjectEDPCodeLabel.Text = "Subject EDP Code";
             // 
@@ -89,7 +89,7 @@
             this.SubjectCodeLabel.Location = new System.Drawing.Point(64, 118);
             this.SubjectCodeLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.SubjectCodeLabel.Name = "SubjectCodeLabel";
-            this.SubjectCodeLabel.Size = new System.Drawing.Size(104, 17);
+            this.SubjectCodeLabel.Size = new System.Drawing.Size(121, 20);
             this.SubjectCodeLabel.TabIndex = 4;
             this.SubjectCodeLabel.Text = "Subject Code";
             // 
@@ -99,7 +99,7 @@
             this.SubjectEDPCodeTextBox.Location = new System.Drawing.Point(208, 86);
             this.SubjectEDPCodeTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.SubjectEDPCodeTextBox.Name = "SubjectEDPCodeTextBox";
-            this.SubjectEDPCodeTextBox.Size = new System.Drawing.Size(194, 23);
+            this.SubjectEDPCodeTextBox.Size = new System.Drawing.Size(194, 27);
             this.SubjectEDPCodeTextBox.TabIndex = 5;
             // 
             // SubjectCodeTextBox
@@ -108,7 +108,7 @@
             this.SubjectCodeTextBox.Location = new System.Drawing.Point(208, 113);
             this.SubjectCodeTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.SubjectCodeTextBox.Name = "SubjectCodeTextBox";
-            this.SubjectCodeTextBox.Size = new System.Drawing.Size(108, 23);
+            this.SubjectCodeTextBox.Size = new System.Drawing.Size(108, 27);
             this.SubjectCodeTextBox.TabIndex = 6;
             this.SubjectCodeTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.SubjectCodeTextBox_KeyPress);
             // 
@@ -119,7 +119,7 @@
             this.DescriptionTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.DescriptionTextBox.Name = "DescriptionTextBox";
             this.DescriptionTextBox.ReadOnly = true;
-            this.DescriptionTextBox.Size = new System.Drawing.Size(292, 23);
+            this.DescriptionTextBox.Size = new System.Drawing.Size(292, 27);
             this.DescriptionTextBox.TabIndex = 7;
             // 
             // DaysTextBox
@@ -128,7 +128,7 @@
             this.DaysTextBox.Location = new System.Drawing.Point(208, 220);
             this.DaysTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.DaysTextBox.Name = "DaysTextBox";
-            this.DaysTextBox.Size = new System.Drawing.Size(108, 23);
+            this.DaysTextBox.Size = new System.Drawing.Size(108, 27);
             this.DaysTextBox.TabIndex = 10;
             // 
             // SectionTextBox
@@ -137,7 +137,7 @@
             this.SectionTextBox.Location = new System.Drawing.Point(208, 247);
             this.SectionTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.SectionTextBox.Name = "SectionTextBox";
-            this.SectionTextBox.Size = new System.Drawing.Size(75, 23);
+            this.SectionTextBox.Size = new System.Drawing.Size(75, 27);
             this.SectionTextBox.TabIndex = 11;
             // 
             // RoomTextBox
@@ -146,7 +146,7 @@
             this.RoomTextBox.Location = new System.Drawing.Point(208, 274);
             this.RoomTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.RoomTextBox.Name = "RoomTextBox";
-            this.RoomTextBox.Size = new System.Drawing.Size(108, 23);
+            this.RoomTextBox.Size = new System.Drawing.Size(108, 27);
             this.RoomTextBox.TabIndex = 12;
             // 
             // SchoolYearTextBox
@@ -155,7 +155,7 @@
             this.SchoolYearTextBox.Location = new System.Drawing.Point(208, 301);
             this.SchoolYearTextBox.Margin = new System.Windows.Forms.Padding(2);
             this.SchoolYearTextBox.Name = "SchoolYearTextBox";
-            this.SchoolYearTextBox.Size = new System.Drawing.Size(108, 23);
+            this.SchoolYearTextBox.Size = new System.Drawing.Size(108, 27);
             this.SchoolYearTextBox.TabIndex = 13;
             // 
             // DescriptionLabel
@@ -166,7 +166,7 @@
             this.DescriptionLabel.Location = new System.Drawing.Point(64, 142);
             this.DescriptionLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.DescriptionLabel.Name = "DescriptionLabel";
-            this.DescriptionLabel.Size = new System.Drawing.Size(90, 17);
+            this.DescriptionLabel.Size = new System.Drawing.Size(106, 20);
             this.DescriptionLabel.TabIndex = 18;
             this.DescriptionLabel.Text = "Description";
             // 
@@ -178,7 +178,7 @@
             this.TimeStartLabel.Location = new System.Drawing.Point(64, 172);
             this.TimeStartLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.TimeStartLabel.Name = "TimeStartLabel";
-            this.TimeStartLabel.Size = new System.Drawing.Size(83, 17);
+            this.TimeStartLabel.Size = new System.Drawing.Size(97, 20);
             this.TimeStartLabel.TabIndex = 19;
             this.TimeStartLabel.Text = "Time Start";
             // 
@@ -190,7 +190,7 @@
             this.TimeEndLabel.Location = new System.Drawing.Point(64, 199);
             this.TimeEndLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.TimeEndLabel.Name = "TimeEndLabel";
-            this.TimeEndLabel.Size = new System.Drawing.Size(76, 17);
+            this.TimeEndLabel.Size = new System.Drawing.Size(88, 20);
             this.TimeEndLabel.TabIndex = 20;
             this.TimeEndLabel.Text = "Time End";
             // 
@@ -202,7 +202,7 @@
             this.DaysLabel.Location = new System.Drawing.Point(64, 226);
             this.DaysLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.DaysLabel.Name = "DaysLabel";
-            this.DaysLabel.Size = new System.Drawing.Size(44, 17);
+            this.DaysLabel.Size = new System.Drawing.Size(52, 20);
             this.DaysLabel.TabIndex = 21;
             this.DaysLabel.Text = "Days";
             // 
@@ -214,7 +214,7 @@
             this.SectionLabel.Location = new System.Drawing.Point(64, 253);
             this.SectionLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.SectionLabel.Name = "SectionLabel";
-            this.SectionLabel.Size = new System.Drawing.Size(62, 17);
+            this.SectionLabel.Size = new System.Drawing.Size(72, 20);
             this.SectionLabel.TabIndex = 22;
             this.SectionLabel.Text = "Section";
             // 
@@ -226,7 +226,7 @@
             this.RoomLabel.Location = new System.Drawing.Point(64, 280);
             this.RoomLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.RoomLabel.Name = "RoomLabel";
-            this.RoomLabel.Size = new System.Drawing.Size(49, 17);
+            this.RoomLabel.Size = new System.Drawing.Size(57, 20);
             this.RoomLabel.TabIndex = 23;
             this.RoomLabel.Text = "Room";
             // 
@@ -238,7 +238,7 @@
             this.SchoolYearLabel.Location = new System.Drawing.Point(64, 306);
             this.SchoolYearLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.SchoolYearLabel.Name = "SchoolYearLabel";
-            this.SchoolYearLabel.Size = new System.Drawing.Size(96, 17);
+            this.SchoolYearLabel.Size = new System.Drawing.Size(110, 20);
             this.SchoolYearLabel.TabIndex = 24;
             this.SchoolYearLabel.Text = "School Year";
             // 
@@ -270,16 +270,20 @@
             // 
             // StartDateTimePicker
             // 
+            this.StartDateTimePicker.CustomFormat = "hh : mm";
+            this.StartDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.StartDateTimePicker.Location = new System.Drawing.Point(208, 168);
             this.StartDateTimePicker.Name = "StartDateTimePicker";
-            this.StartDateTimePicker.Size = new System.Drawing.Size(108, 20);
+            this.StartDateTimePicker.Size = new System.Drawing.Size(91, 20);
             this.StartDateTimePicker.TabIndex = 27;
             // 
             // EndDateTimePicker
             // 
+            this.EndDateTimePicker.CustomFormat = "hh : mm";
+            this.EndDateTimePicker.Format = System.Windows.Forms.DateTimePickerFormat.Time;
             this.EndDateTimePicker.Location = new System.Drawing.Point(208, 194);
             this.EndDateTimePicker.Name = "EndDateTimePicker";
-            this.EndDateTimePicker.Size = new System.Drawing.Size(108, 20);
+            this.EndDateTimePicker.Size = new System.Drawing.Size(91, 20);
             this.EndDateTimePicker.TabIndex = 28;
             this.EndDateTimePicker.Value = new System.DateTime(2025, 4, 29, 12, 42, 0, 0);
             // 
@@ -313,7 +317,7 @@
             this.AMPMLabel.Location = new System.Drawing.Point(330, 172);
             this.AMPMLabel.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.AMPMLabel.Name = "AMPMLabel";
-            this.AMPMLabel.Size = new System.Drawing.Size(57, 17);
+            this.AMPMLabel.Size = new System.Drawing.Size(69, 20);
             this.AMPMLabel.TabIndex = 32;
             this.AMPMLabel.Text = "AM/PM";
             // 

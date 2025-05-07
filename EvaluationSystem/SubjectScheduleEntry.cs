@@ -42,12 +42,12 @@ namespace EvaluationSystem
             StartDateTimePicker.Format = DateTimePickerFormat.Time;
             StartDateTimePicker.ShowUpDown = true;
             StartDateTimePicker.Format = DateTimePickerFormat.Custom;
-            StartDateTimePicker.CustomFormat = "HH: mm tt";
+            StartDateTimePicker.CustomFormat = "HH:mm tt";
 
             EndDateTimePicker.Format = DateTimePickerFormat.Time;
             EndDateTimePicker.ShowUpDown = true;
             EndDateTimePicker.Format = DateTimePickerFormat.Custom;
-            EndDateTimePicker.CustomFormat = "HH: mm tt";
+            EndDateTimePicker.CustomFormat = "HH:mm tt";
         }
 
         private bool SubjectEdpCodeExists(string edpCode, DataTable subjectTable)
@@ -113,6 +113,7 @@ namespace EvaluationSystem
                 DaysTextBox.Text.Equals("") ||
                 RoomTextBox.Text.Equals("") ||
                 SectionTextBox.Text.Equals("") ||
+                AMPMComboBox.SelectedItem == null ||
                 SchoolYearTextBox.Text.Equals(""))
             {
                 MessageBox.Show("FILL UP THE REMAINING FIELDS", "Missing Information", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -168,8 +169,8 @@ namespace EvaluationSystem
             {
                 schedRow["SSFEDPCODE"] = SubjectEDPCodeTextBox.Text;
                 schedRow["SSFSUBJCODE"] = SubjectCodeTextBox.Text;
-                schedRow["SSFSTARTTIME"] = StartDateTimePicker.Value.ToString("HH:mm tt");
-                schedRow["SSFENDTIME"] = EndDateTimePicker.Value.ToString("HH:mm tt");
+                schedRow["SSFSTARTTIME"] = StartDateTimePicker.Value.ToString("hh:mm tt");
+                schedRow["SSFENDTIME"] = EndDateTimePicker.Value.ToString("hh:mm tt");
                 schedRow["SSFDAYS"] = DaysTextBox.Text;
                 schedRow["SSFROOM"] = Convert.ToInt64(RoomTextBox.Text);
                 schedRow["SSFMAXSIZE"] = 1;

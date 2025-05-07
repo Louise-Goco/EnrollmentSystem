@@ -5,6 +5,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -76,17 +77,28 @@ namespace EvaluationSystem
 
         private void SaveButton_Click(object sender, EventArgs e)
         {
+            string unitsText = TotalUnitsTextBox.Text.Trim();
+            double totalUnits = 0.0;
             string studentId = IdNumberTextBox.Text.Trim();
             string encodedBy = EncodedByTextBox.Text.Trim();
             string status = "EN";
-            int totalUnits = int.TryParse(TotalUnitsLabel.Text.Trim(), out int result) ? result : 0;
+            string cleaned = new string(TotalUnitsTextBox.Text.Where(c => char.IsDigit(c) || c == '.').ToArray());
+            double.TryParse(cleaned, out totalUnits);
             DateTime dateEnrolled = DateTimePicker.Value;
 
-            if (string.IsNullOrEmpty(studentId) || string.IsNullOrEmpty(encodedBy) || SubjectChoosedDataGridView.Rows.Count == 0)
+            if (string.IsNullOrEmpty(studentId))
             {
-                MessageBox.Show("Please fill out all required fields and add at least one subject.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Student ID is missing", "Empty Student ID", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
+
+            if (string.IsNullOrEmpty(encodedBy))
+            {
+                MessageBox.Show("No Encoder inputed", "Missing Encoder", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            
 
             string firstEDPCode = null;
             foreach (DataGridViewRow row in SubjectChoosedDataGridView.Rows)
@@ -100,7 +112,7 @@ namespace EvaluationSystem
 
             if (string.IsNullOrEmpty(firstEDPCode))
             {
-                MessageBox.Show("Cannot determine school year.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please fill out all required fields and add at least one subject.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
@@ -143,7 +155,7 @@ namespace EvaluationSystem
                         cmdHeader.Parameters.AddWithValue("@Status", status);
                         cmdHeader.ExecuteNonQuery();
                     }
-
+  
                     // Insert into EnrollmentDetailFile
                     foreach (DataGridViewRow row in SubjectChoosedDataGridView.Rows)
                     {
@@ -217,6 +229,7 @@ namespace EvaluationSystem
                     EDPCodeTextBox.SelectAll();
                     return;
                 }
+
                 string subjectCode = null;
                 DateTime startTime = DateTime.MinValue;
                 DateTime endTime = DateTime.MinValue;
@@ -224,7 +237,7 @@ namespace EvaluationSystem
                 string room = null;
                 double units = 0.0;
                 int maxSize = 0;
-                int classSize = -1;
+                int classSize = 0;
                 bool scheduleFound = false;
 
                 string combinedSql = @"
@@ -252,7 +265,6 @@ namespace EvaluationSystem
                             subjectCode = reader["SSFSUBJCODE"] as string;
                             startTime = reader["SSFSTARTTIME"] as DateTime? ?? DateTime.MinValue;
                             endTime = reader["SSFENDTIME"] as DateTime? ?? DateTime.MinValue;
-
                             days = reader["SSFDAYS"] as string;
                             room = reader["SSFROOM"] as string;
                             maxSize = reader["SSFMAXSIZE"] != DBNull.Value ? Convert.ToInt32(reader["SSFMAXSIZE"]) : 0;
@@ -282,6 +294,12 @@ namespace EvaluationSystem
                     }
                 }
 
+                if (HasSameSubjectCode(subjectCode))
+                {
+                    MessageBox.Show($"Subject '{subjectCode}' is already added.", "Duplicate Subject", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    EDPCodeTextBox.SelectAll();
+                    return;
+                }
 
                 if (!scheduleFound)
                 {
@@ -290,7 +308,7 @@ namespace EvaluationSystem
                     return;
                 }
 
-                if (classSize >= maxSize)
+                if (classSize != -1 && maxSize > 0 && classSize >= maxSize)
                 {
                     MessageBox.Show("Subject for this EDP Code is already closed (Class Full).", "Class Full", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     EDPCodeTextBox.SelectAll();
@@ -364,30 +382,66 @@ namespace EvaluationSystem
 
                 newRow.Cells["EDPCodeColumn"].Value = edpCodeInput;
                 newRow.Cells["SubjectCodeColumn"].Value = subjectCode;
-                newRow.Cells["StartTimeColumn"].Value = startTime;
-                newRow.Cells["EndTimeColumn"].Value = endTime;
+                newRow.Cells["StartTimeColumn"].Value = startTime.ToString("t"); // "4:05 PM"
+                newRow.Cells["EndTimeColumn"].Value = endTime.ToString("t");     // "5:30 PM"
                 newRow.Cells["DaysColumn"].Value = days;
                 newRow.Cells["RoomColumn"].Value = room;
                 newRow.Cells["UnitsColumn"].Value = units;
 
-                int totalUnits = 0;
+                double totalUnits = 0.0;
 
                 foreach (DataGridViewRow row in SubjectChoosedDataGridView.Rows)
                 {
-                    if (row.Cells["UnitsColumn"].Value != null)
+                    if (!row.IsNewRow && row.Cells["UnitsColumn"].Value != null)
                     {
-                        totalUnits += Convert.ToInt32(row.Cells["UnitsColumn"].Value);
+                        if (double.TryParse(row.Cells["UnitsColumn"].Value.ToString(), out units))
+                        {
+                            totalUnits += units;
+                        }
                     }
                 }
 
-                TotalUnitsTextBox.Text = totalUnits.ToString();
+                TotalUnitsTextBox.Text = totalUnits.ToString("0.0");
+                
+                string edpCode = EDPCodeTextBox.Text.Trim(); // Get the EDP code
+
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    SqlTransaction transaction = connection.BeginTransaction();
+
+                    try
+                    {
+                        UpdateClassSize(edpCode, connection, transaction);
+                        transaction.Commit();
+
+                        EDPCodeTextBox.Clear();
+                        EDPCodeTextBox.Focus();
+                    }
+                    catch (Exception ex)
+                    {
+                        transaction.Rollback();
+                        MessageBox.Show("Error: " + ex.Message);
+                    }
+                }
 
                 EDPCodeTextBox.Clear();
                 EDPCodeTextBox.Focus();
             }
         }
-
-
+        private void UpdateClassSize(string edpCode, SqlConnection connection, SqlTransaction transaction)
+        {
+            string updateSql = "UPDATE SUBJECTSCHEDFILE SET SSFCLASSSIZE = ISNULL(SSFCLASSSIZE, 0) + 1 WHERE SSFEDPCODE = @EDPCode";
+            using (SqlCommand updateCommand = new SqlCommand(updateSql, connection, transaction))
+            {
+                updateCommand.Parameters.AddWithValue("@EDPCode", edpCode);
+                int rowsAffected = updateCommand.ExecuteNonQuery();
+                if (rowsAffected == 0)
+                {
+                    throw new InvalidOperationException($"Failed to update class size for EDP Code '{edpCode}'. Record may no longer exist.");
+                }
+            }
+        }
         bool HasTimeConflict(DateTime start1, DateTime end1, DateTime start2, DateTime end2)
         {
 
@@ -412,6 +466,22 @@ namespace EvaluationSystem
             return daysConflict;
         }
 
+        private bool HasSameSubjectCode(string subjectCodeToCheck)
+        {
+            foreach (DataGridViewRow row in SubjectChoosedDataGridView.Rows)
+            {
+                if (row.IsNewRow)
+                    continue;
+
+                var existingCode = row.Cells["SubjectCodeColumn"].Value?.ToString();
+                if (!string.IsNullOrEmpty(existingCode) &&
+                    existingCode.Equals(subjectCodeToCheck, StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 }
 
