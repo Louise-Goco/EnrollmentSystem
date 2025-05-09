@@ -173,7 +173,7 @@ namespace EvaluationSystem
                 schedRow["SSFENDTIME"] = EndDateTimePicker.Value.ToString("hh:mm tt");
                 schedRow["SSFDAYS"] = DaysTextBox.Text;
                 schedRow["SSFROOM"] = Convert.ToInt64(RoomTextBox.Text);
-                schedRow["SSFMAXSIZE"] = 1;
+                schedRow["SSFMAXSIZE"] = 50;
                 schedRow["SSFCLASSSIZE"] = 0;
                 schedRow["SSFSTATUS"] = "AC";
                 schedRow["SSFXM"] = AMPMComboBox.SelectedItem.ToString();

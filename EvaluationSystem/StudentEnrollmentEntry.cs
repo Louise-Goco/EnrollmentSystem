@@ -41,10 +41,22 @@ namespace EvaluationSystem
                 bool found = false;
                 SqlConnection myConnection = new SqlConnection(connectionString);
                 myConnection.Open();
+
+                // Check for duplicate ENRHFSTUDID entries
+                SqlCommand duplicateCheckCommand = new SqlCommand(
+                    "SELECT COUNT(*) FROM EnrollmentHeaderFile WHERE ENRHFSTUDID = @StudID", myConnection);
+                duplicateCheckCommand.Parameters.AddWithValue("@StudID", IdNumberTextBox.Text);
+
+                int duplicateCount = (int)duplicateCheckCommand.ExecuteScalar();
+                if (duplicateCount == 1)
+                {
+                    MessageBox.Show("Student is already Enrolled", "Student Enrolled", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    IdNumberTextBox.Clear();
+                    return;
+                }
+
                 SqlCommand studentCommand = myConnection.CreateCommand();
-
                 studentCommand.CommandText = "SELECT * FROM STUDENTFILE";
-
                 SqlDataReader studentDataReader = studentCommand.ExecuteReader();
                 while (studentDataReader.Read())
                 {
@@ -62,8 +74,8 @@ namespace EvaluationSystem
                 if (!found)
                 {
                     MessageBox.Show("ID Number not Found", "No ID Number", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
                 }
-
             }
         }
 
@@ -177,6 +189,8 @@ namespace EvaluationSystem
                             cmdDetail.Parameters.AddWithValue("@EDPCode", edpCode);
                             cmdDetail.Parameters.AddWithValue("@Status", status);
                             cmdDetail.ExecuteNonQuery();
+
+                            UpdateClassSize(edpCode, conn, transaction);
                         }
                     }
                     success = true;
@@ -405,26 +419,6 @@ namespace EvaluationSystem
                 
                 string edpCode = EDPCodeTextBox.Text.Trim(); // Get the EDP code
 
-                using (SqlConnection connection = new SqlConnection(connectionString))
-                {
-                    connection.Open();
-                    SqlTransaction transaction = connection.BeginTransaction();
-
-                    try
-                    {
-                        UpdateClassSize(edpCode, connection, transaction);
-                        transaction.Commit();
-
-                        EDPCodeTextBox.Clear();
-                        EDPCodeTextBox.Focus();
-                    }
-                    catch (Exception ex)
-                    {
-                        transaction.Rollback();
-                        MessageBox.Show("Error: " + ex.Message);
-                    }
-                }
-
                 EDPCodeTextBox.Clear();
                 EDPCodeTextBox.Focus();
             }
@@ -448,22 +442,35 @@ namespace EvaluationSystem
             return (start1.TimeOfDay < end2.TimeOfDay && end1.TimeOfDay > start2.TimeOfDay);
         }
 
-        bool HasDaysConflict(string days, string dayList)
+        List<string> ExpandDays(string dayCode)
         {
-            bool daysConflict = false;
-            if (string.IsNullOrWhiteSpace(days) || string.IsNullOrWhiteSpace(dayList)) return false; // Handle empty strings
-            string daysUpper = days.ToUpper().Trim();
-            string dayListUpper = dayList.ToUpper().Trim();
-            for (int i = 0; i < dayListUpper.Length; i++)
-            {
-                char day = dayListUpper[i];
-                if (dayListUpper.Contains(day)) // Problematic check
-                {
-                    daysConflict = true;
-                    break;
-                }
-            }
-            return daysConflict;
+            // Mapping compressed day codes to individual days
+            var map = new Dictionary<string, List<string>>(StringComparer.OrdinalIgnoreCase)
+    {
+        { "M", new List<string> { "M" } },
+        { "T", new List<string> { "T" } },
+        { "W", new List<string> { "W" } },
+        { "TH", new List<string> { "TH" } },
+        { "F", new List<string> { "F" } },
+        { "S", new List<string> { "S" } },
+        { "MW", new List<string> { "M", "W" } },
+        { "TTH", new List<string> { "T", "TH" } },
+        { "MWF", new List<string> { "M", "W", "F" } },
+        { "TTHS", new List<string> { "T", "TH", "S" } }
+    };
+
+            if (map.ContainsKey(dayCode.Trim().ToUpper()))
+                return map[dayCode.Trim().ToUpper()];
+
+            return new List<string>(); // return empty list if invalid
+        }
+
+        bool HasDaysConflict(string newDayCode, string existingDayCode)
+        {
+            var newDays = ExpandDays(newDayCode);
+            var existingDays = ExpandDays(existingDayCode);
+
+            return newDays.Any(day => existingDays.Contains(day, StringComparer.OrdinalIgnoreCase));
         }
 
         private bool HasSameSubjectCode(string subjectCodeToCheck)
